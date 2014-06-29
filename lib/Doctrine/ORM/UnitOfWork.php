@@ -483,6 +483,8 @@ class UnitOfWork implements PropertyChangedListener
             $this->entityChangeSets[$oid] = $changeset;
             $this->getEntityPersister(get_class($entity))->update($entity);
         }
+
+        $this->extraUpdates = array();
     }
 
     /**
@@ -1428,7 +1430,7 @@ class UnitOfWork implements PropertyChangedListener
         }
 
         switch (true) {
-            case ($class->isIdentifierNatural());
+            case ($class->isIdentifierNatural()):
                 // Check for a version field, if available, to avoid a db lookup.
                 if ($class->isVersioned) {
                     return ($class->getFieldValue($entity, $class->versionField))
@@ -2321,7 +2323,7 @@ class UnitOfWork implements PropertyChangedListener
         $class = $this->em->getClassMetadata(get_class($entity));
 
         switch (true) {
-            case LockMode::OPTIMISTIC === $lockMode;
+            case LockMode::OPTIMISTIC === $lockMode:
                 if ( ! $class->isVersioned) {
                     throw OptimisticLockException::notVersioned($class->name);
                 }
